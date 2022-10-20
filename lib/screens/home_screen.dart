@@ -6,6 +6,7 @@ import 'package:store_api_flutter_course/consts/global_colors.dart';
 import 'package:store_api_flutter_course/screens/categories_screen.dart';
 import 'package:store_api_flutter_course/screens/feeds_screen.dart';
 import 'package:store_api_flutter_course/screens/users_screen.dart';
+import 'package:store_api_flutter_course/services/api_handler.dart';
 
 import '../widgets/appbar_icons.dart';
 import '../widgets/feeds_widget.dart';
@@ -30,6 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _textEditingController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    APIHandler.getAllProducts();
+    super.didChangeDependencies();
   }
 
   @override
