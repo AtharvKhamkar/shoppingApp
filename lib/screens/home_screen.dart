@@ -1,7 +1,9 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:store_api_flutter_course/consts/global_colors.dart';
+import 'package:store_api_flutter_course/screens/feeds_screen.dart';
 
 import '../widgets/appbar_icons.dart';
 import '../widgets/feeds_widget.dart';
@@ -115,7 +117,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             const Spacer(),
                             AppBarIcons(
-                                function: () {}, icon: IconlyBold.arrowRight2),
+                                function: () {
+                                  Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          type: PageTransitionType.fade,
+                                          child: FeedsScreen()));
+                                },
+                                icon: IconlyBold.arrowRight2),
                           ],
                         ),
                       ),
