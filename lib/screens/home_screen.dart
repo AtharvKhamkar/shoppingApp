@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:store_api_flutter_course/consts/global_colors.dart';
 import 'package:store_api_flutter_course/screens/categories_screen.dart';
 import 'package:store_api_flutter_course/screens/feeds_screen.dart';
+import 'package:store_api_flutter_course/screens/users_screen.dart';
 
 import '../widgets/appbar_icons.dart';
 import '../widgets/feeds_widget.dart';
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 PageTransition(
                   type: PageTransitionType.fade,
-                  child: CategoriesScreen(),
+                  child: const CategoriesScreen(),
                 ),
               );
             },
@@ -56,7 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           actions: [
             AppBarIcons(
-              function: () {},
+              function: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade,
+                        child: const UsersScreen()));
+              },
               icon: IconlyBold.user3,
             ),
           ],
@@ -92,6 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       IconlyLight.search,
                       color: lightIconsColor,
                     )),
+              ),
+              SizedBox(
+                height: 18,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -131,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       context,
                                       PageTransition(
                                           type: PageTransitionType.fade,
-                                          child: FeedsScreen()));
+                                          child: const FeedsScreen()));
                                 },
                                 icon: IconlyBold.arrowRight2),
                           ],
@@ -139,14 +149,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       GridView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: 3,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 0.0,
                                   mainAxisSpacing: 0.0,
-                                  childAspectRatio: 0.6),
+                                  childAspectRatio: 0.7),
                           itemBuilder: (context, index) {
                             return const FeedsWidget();
                           })
