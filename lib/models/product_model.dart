@@ -26,4 +26,10 @@ class ProductModel {
         : null;
     images = json['images'].cast<String>();
   }
+
+  static List<ProductModel> productFromSnapshot(List productSnapShot) {
+    return productSnapShot.map((data) {
+       return ProductModel.fromJson(data);
+    }).toList();
+  }
 }
