@@ -23,8 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late TextEditingController _textEditingController;
-  List<ProductModel> productList = [];
-
+  // List<ProductsModel> productsList = [];
   @override
   void initState() {
     _textEditingController = TextEditingController();
@@ -37,16 +36,16 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    getproducts();
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   getProducts();
+  //   super.didChangeDependencies();
+  // }
 
-  Future<void> getproducts() async {
-    productList = await APIHandler.getAllProducts();
-    setState(() {});
-  }
+  // Future<void> getProducts() async {
+  //   productsList = await APIHandler.getAllProducts();
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -56,73 +55,74 @@ class _HomeScreenState extends State<HomeScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(
-          // elevation: 4,
-          title: const Text('Home'),
-          leading: AppBarIcons(
-            function: () {
-              Navigator.push(
-                context,
-                PageTransition(
-                  type: PageTransitionType.fade,
-                  child: const CategoriesScreen(),
-                ),
-              );
-            },
-            icon: IconlyBold.category,
-          ),
-          actions: [
-            AppBarIcons(
+          appBar: AppBar(
+            // elevation: 4,
+            title: const Text('Home'),
+            leading: AppBarIcons(
               function: () {
                 Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.fade,
+                    child: const CategoriesScreen(),
+                  ),
+                );
+              },
+              icon: IconlyBold.category,
+            ),
+            actions: [
+              AppBarIcons(
+                function: () {
+                  Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.fade,
-                        child: const UsersScreen()));
-              },
-              icon: IconlyBold.user3,
-            ),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 18,
-              ),
-              TextField(
-                controller: _textEditingController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    hintText: "Search",
-                    filled: true,
-                    fillColor: Theme.of(context).cardColor,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).cardColor,
-                      ),
+                      type: PageTransitionType.fade,
+                      child: const UsersScreen(),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Theme.of(context).colorScheme.secondary,
+                  );
+                },
+                icon: IconlyBold.user3,
+              ),
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 18,
+                ),
+                TextField(
+                  controller: _textEditingController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                      hintText: "Search",
+                      filled: true,
+                      fillColor: Theme.of(context).cardColor,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).cardColor,
+                        ),
                       ),
-                    ),
-                    suffixIcon: Icon(
-                      IconlyLight.search,
-                      color: lightIconsColor,
-                    )),
-              ),
-              SizedBox(
-                height: 18,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                      suffixIcon: Icon(
+                        IconlyLight.search,
+                        color: lightIconsColor,
+                      )),
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(children: [
                       SizedBox(
                         height: size.height * 0.25,
                         child: Swiper(
@@ -163,17 +163,33 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-                      productList.isEmpty
-                          ? Container()
-                          : FeedsGridWidget(productList: productList)
-                    ],
+                      FutureBuilder<List<ProductModel>>(
+                          future: APIHandler.getAllProducts(),
+                          builder: ((context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshot.hasError) {
+                              Center(
+                                child:
+                                    Text("An error occured ${snapshot.error}"),
+                              );
+                            } else if (snapshot.data == null) {
+                              const Center(
+                                child: Text("No products has been added yet"),
+                              );
+                            }
+                            return FeedsGridWidget(
+                                productList: snapshot.data!);
+                          }))
+                    ]),
                   ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+                )
+              ],
+            ),
+          )),
     );
   }
 }

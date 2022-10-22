@@ -78,7 +78,7 @@ class FeedsWidget extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 12,
                     //  fontFamily: 'Roboto',
                     fontWeight: FontWeight.w700,
                   ),
