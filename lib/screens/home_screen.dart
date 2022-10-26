@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> { 
   late TextEditingController _textEditingController;
   // List<ProductsModel> productsList = [];
   @override
@@ -181,8 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Text("No products has been added yet"),
                               );
                             }
-                            return FeedsGridWidget(
-                                productList: snapshot.data!);
+                            return FeedsGridWidget(productList: snapshot.data!);
                           }))
                     ]),
                   ),
