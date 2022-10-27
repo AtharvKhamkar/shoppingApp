@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:provider/provider.dart';
 import 'package:store_api_flutter_course/consts/global_colors.dart';
+import 'package:store_api_flutter_course/models/categories_model.dart';
 
 class categoryWidget extends StatelessWidget {
   const categoryWidget({super.key});
@@ -11,6 +13,7 @@ class categoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final categoriesModelProvider = Provider.of<CategoriesModel>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
@@ -25,7 +28,7 @@ class categoryWidget extends StatelessWidget {
                 color: Colors.red,
                 size: 28,
               ),
-              imageUrl: "https://i.ibb.co/vwB46Yq/shoes.png",
+              imageUrl: categoriesModelProvider.image.toString(),
               boxFit: BoxFit.fill,
             ),
           ),
@@ -33,7 +36,7 @@ class categoryWidget extends StatelessWidget {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                "Catg name",
+                categoriesModelProvider.name.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
